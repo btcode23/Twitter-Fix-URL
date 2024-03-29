@@ -6,6 +6,7 @@
 // @author       btcode23
 // @match        https://twitter.com/*
 // @icon         https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png
+
 // @downloadURL https://update.greasyfork.org/scripts/491145/Twitter%20Fix%20URL.user.js
 // @updateURL https://update.greasyfork.org/scripts/491145/Twitter%20Fix%20URL.meta.js
 
