@@ -137,9 +137,9 @@ function addNewShareButtons() {
 (function() {
     'use strict';
 
-    // toggle URLs with 't'
+    // toggle URLs with 'c'
     document.addEventListener("keydown", function(e) {
-        if (!e.target.isContentEditable && !(e.target.tagName === 'INPUT') && !(e.target.tagName === 'TEXTAREA') && e.key === 't') {
+        if (!e.target.isContentEditable && !(e.target.tagName === 'INPUT') && !(e.target.tagName === 'TEXTAREA') && e.key === 'c') {
             toggle();
         }
     });
