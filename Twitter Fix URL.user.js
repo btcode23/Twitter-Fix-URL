@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter Fix URL
 // @namespace    https://github.com/btcode23
-// @version      0.2.1
+// @version      0.2.2
 // @description  Adds a button to share a tweet with an alternative URL to the "X" link
 // @author       btcode23
 // @license      MIT
