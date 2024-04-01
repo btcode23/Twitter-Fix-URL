@@ -137,9 +137,9 @@ function addNewShareButtons() {
 (function() {
     'use strict';
 
-    // toggle URLs with 'c'
+    // toggle URLs with 'q'
     document.addEventListener("keydown", function(e) {
-        if (!e.target.isContentEditable && !(e.target.tagName === 'INPUT') && !(e.target.tagName === 'TEXTAREA') && e.key === 'c') {
+        if (!e.target.isContentEditable && !(e.target.tagName === 'INPUT') && !(e.target.tagName === 'TEXTAREA') && e.key === 'q') {
             toggle();
         }
     });
@@ -157,7 +157,7 @@ function addNewShareButtons() {
 GM_registerMenuCommand('Setting', () => config());
 
 // toggle between switching the URL to the alternative URL or twitter.com (the default is 'x.com')
-GM_registerMenuCommand('Toggle (t)', () => toggle());
+GM_registerMenuCommand('Toggle (q)', () => toggle());
 
 function config() {
     let configPopupContainer = document.getElementById('ConfigTwitterFixUrlContainer')
