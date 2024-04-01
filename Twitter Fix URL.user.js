@@ -2,7 +2,7 @@
 // @name         Twitter Fix URL
 // @namespace    https://github.com/btcode23
 // @version      0.2.1
-// @description  Adds a button to share a tweet with a vxtwitter URL instead of a twitter URL
+// @description  Adds a button to share a tweet, alternatively to the "X" link
 // @author       btcode23
 // @license      MIT
 // @grant        GM_setValue
