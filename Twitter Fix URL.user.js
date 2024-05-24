@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter Fix URL
 // @namespace    https://github.com/btcode23
-// @version      0.2.1
+// @version      0.2.2
 // @description  Adds a button to share a tweet with an alternative URL to the "X" link
 // @author       btcode23
 // @license      MIT
@@ -57,12 +57,7 @@ function copyAlternativeTwitterUrl(tweet) {
     const tweetPath = tweet.querySelector('a:has(time)').getAttribute('href');
 
     // new share URL
-    let newUrl;
-    if (!GM_getValue('TOGGLE')) {
-        newUrl = GM_getValue('ALT_URL') + tweetPath;
-    } else {
-        newUrl = 'https://twitter.com' + tweetPath;
-    }
+    let newUrl = GM_getValue('ALT_URL') + tweetPath;
 
     navigator.clipboard.writeText(newUrl);
     displayConfirmation();
