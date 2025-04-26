@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter Fix URL
 // @namespace    https://github.com/btcode23
-// @version      0.2.2
+// @version      0.3.1
 // @description  Adds a button to share a tweet with an alternative URL to the "X" link
 // @author       btcode23
 // @license      MIT
@@ -71,6 +71,7 @@ function designButton(tweet) {
     group.insertBefore(newIconPadding, otherIcon.sibling);
     newIconPadding.classList.add('custom-copy-icon');
     const computedStyle = getComputedStyle(otherIcon);
+    console.log(getComputedStyle(otherIcon));
     const adjustedIconSize = Number(computedStyle.height.split('px')[0]); // square size based on share icon's height
     newIconPadding.style.height = adjustedIconSize + 'px';
     newIconPadding.style.width = adjustedIconSize + 'px';
@@ -81,34 +82,29 @@ function designButton(tweet) {
     newIconPadding.append(newIcon);
     const computedStyleCircle = getComputedStyle(otherIcon.firstChild.firstChild.firstChild);
     const adjustedIconCircleSize = Number(computedStyleCircle.height.split('px')[0]);
-    newIcon.style.height = adjustedIconCircleSize + 'px';
-    newIcon.style.width = adjustedIconCircleSize + 'px';
-    newIcon.style.marginLeft = '50%'; // center element
-    newIcon.style.marginTop = '50%';
-    newIcon.style.transform = 'translate(-50%, -50%)';
+    newIcon.style.height = adjustedIconSize + 'px';
+    newIcon.style.width = adjustedIconSize + 'px';
+    newIcon.style.padding = (adjustedIconSize - adjustedIconCircleSize) + 'px';
+    newIcon.style.borderRadius = '50%'; // make background border a circle
 
     newIcon.innerHTML = svg; // add clipboard svg
     const icon = newIcon.querySelector('svg');
     const computedStyleIcon = getComputedStyle(otherIcon.querySelector('svg'));
-    const adjustedIconeSize = Number(computedStyleIcon.height.split('px')[0]);
-    icon.style.height = adjustedIconeSize + 'px';
-    icon.style.width = adjustedIconeSize + 'px';
     const iconOriginalColor = computedStyleIcon.color;
     icon.querySelector('path').style.stroke = iconOriginalColor; // set color to same as other icon
-    icon.style.padding = (adjustedIconCircleSize - adjustedIconeSize) / 2 + 'px';
-    icon.style.borderRadius = '50%'; // make background border a circle
+    //icon.style.padding = 50 / adjustedIconCircleSize + 'px';
 
     // highlight icon when mouseover event using twitter blue color
     // should look the same as the other icons
     newIcon.addEventListener('mouseover', function() {
-        icon.style.backgroundColor = 'rgba(29, 161, 242, 0.1)';
-        icon.querySelector('path').style.stroke = 'rgba(29, 161, 242, 1)';
+        newIcon.style.backgroundColor = 'rgba(29, 161, 242, 0.1)';
+        newIcon.querySelector('path').style.stroke = 'rgba(29, 161, 242, 1)';
     });
 
     // return to original style when mouseleave event
     newIcon.addEventListener('mouseleave', function() {
-        icon.style.backgroundColor = '';
-        icon.querySelector('path').style.stroke = iconOriginalColor;
+        newIcon.style.backgroundColor = '';
+        newIcon.querySelector('path').style.stroke = iconOriginalColor;
     });
 
     // copy link using alternative domain
