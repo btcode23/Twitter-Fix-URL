@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter Fix URL
 // @namespace    https://github.com/btcode23
-// @version      0.3.1
+// @version      0.3.2
 // @description  Adds a button to share a tweet with an alternative URL to the "X" link
 // @author       btcode23
 // @license      MIT
@@ -149,7 +149,7 @@ function config() {
 
     const configPopup = document.createElement('form');
     configPopup.innerHTML = '<p style="text-align: center;">Twitter Fix URL Config</p>';
-    configPopup.style.cssText = 'position: fixed; top: 50%; left: 50%; padding: 10px; margin-top: -100px; margin-left: -150px; width: 300px; height: 200px; background-color: black; border: 2px solid white; border-radius: 25px; color: white; font-size: 24px;';
+    configPopup.style.cssText = 'position: fixed; top: 50%; left: 50%; padding: 10px; margin-top: -100px; margin-left: -150px; width: 325px; height: 200px; background-color: black; border: 2px solid white; border-radius: 25px; color: white; font-size: 24px;';
 
     const formFontSize = 'font-size: 18px;';
     const altUrlLabel = document.createElement('label');
