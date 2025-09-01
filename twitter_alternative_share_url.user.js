@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Twitter Fix URL
+// @name         Twitter Alternative Share URL
 // @namespace    https://github.com/btcode23
-// @version      0.3.2
+// @version      0.4.1
 // @description  Adds a button to share a tweet with an alternative URL to the "X" link
 // @author       btcode23
 // @license      MIT
@@ -24,9 +24,7 @@ if (GM_getValue('ALT_URL') == undefined) {
     GM_setValue('ALT_URL', baseUrl);
 }
 
-const svg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">' +
-    '<path d="M8 5.00005C7.01165 5.00082 6.49359 5.01338 6.09202 5.21799C5.71569 5.40973 5.40973 5.71569 5.21799 6.09202C5 6.51984 5 7.07989 5 8.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.07989 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V8.2C19 7.07989 19 6.51984 18.782 6.09202C18.5903 5.71569 18.2843 5.40973 17.908 5.21799C17.5064 5.01338 16.9884 5.00082 16 5.00005M8 5.00005V7H16V5.00005M8 5.00005V4.70711C8 4.25435 8.17986 3.82014 8.5 3.5C8.82014 3.17986 9.25435 3 9.70711 3H14.2929C14.7456 3 15.1799 3.17986 15.5 3.5C15.8201 3.82014 16 4.25435 16 4.70711V5.00005M12 11V17M12 17L10 15M12 17L14 15" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>' +
-    '</svg>';
+const svg = '<path d="M8 5.00005C7.01165 5.00082 6.49359 5.01338 6.09202 5.21799C5.71569 5.40973 5.40973 5.71569 5.21799 6.09202C5 6.51984 5 7.07989 5 8.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.07989 21 8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V8.2C19 7.07989 19 6.51984 18.782 6.09202C18.5903 5.71569 18.2843 5.40973 17.908 5.21799C17.5064 5.01338 16.9884 5.00082 16 5.00005M8 5.00005V7H16V5.00005M8 5.00005V4.70711C8 4.25435 8.17986 3.82014 8.5 3.5C8.82014 3.17986 9.25435 3 9.70711 3H14.2929C14.7456 3 15.1799 3.17986 15.5 3.5C15.8201 3.82014 16 4.25435 16 4.70711V5.00005M12 11V17M12 17L10 15M12 17L14 15" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>';
 
 function displayConfirmation() {
     const layers = document.getElementById('layers');
@@ -65,45 +63,37 @@ function copyAlternativeTwitterUrl(tweet) {
 
 function designButton(tweet) {
     const group = tweet.querySelector('div[role="group"]');
-    const otherIcon = group.querySelector('button[aria-label="Share post"]');
+    const otherIcon = group.querySelector('button[aria-label="Share post"]').parentElement.parentElement;
 
-    const newIconPadding = document.createElement('div');
-    group.insertBefore(newIconPadding, otherIcon.sibling);
-    newIconPadding.classList.add('custom-copy-icon');
-    const computedStyle = getComputedStyle(otherIcon);
-    console.log(getComputedStyle(otherIcon));
-    const adjustedIconSize = Number(computedStyle.height.split('px')[0]); // square size based on share icon's height
-    newIconPadding.style.height = adjustedIconSize + 'px';
-    newIconPadding.style.width = adjustedIconSize + 'px';
-    const adjustedPadding = adjustedIconSize / 4; // move new share icon over relative to size
-    newIconPadding.style.paddingLeft = adjustedPadding + 'px';
+    const newIcon = otherIcon.cloneNode(true);
+    newIcon.classList.add('custom-copy-icon');
+    group.insertBefore(newIcon, otherIcon.sibling);
 
-    const newIcon = document.createElement('div'); // create element to fit highlighted circle
-    newIconPadding.append(newIcon);
-    const computedStyleCircle = getComputedStyle(otherIcon.firstChild.firstChild.firstChild);
-    const adjustedIconCircleSize = Number(computedStyleCircle.height.split('px')[0]);
-    newIcon.style.height = adjustedIconSize + 'px';
-    newIcon.style.width = adjustedIconSize + 'px';
-    newIcon.style.padding = (adjustedIconSize - adjustedIconCircleSize) + 'px';
-    newIcon.style.borderRadius = '50%'; // make background border a circle
-
-    newIcon.innerHTML = svg; // add clipboard svg
+    newIcon.querySelector('svg').innerHTML = svg; // add clipboard svg
     const icon = newIcon.querySelector('svg');
+    icon.querySelector('path').style.fill = 'none';
     const computedStyleIcon = getComputedStyle(otherIcon.querySelector('svg'));
     const iconOriginalColor = computedStyleIcon.color;
     icon.querySelector('path').style.stroke = iconOriginalColor; // set color to same as other icon
-    //icon.style.padding = 50 / adjustedIconCircleSize + 'px';
+
+    const computedContainerStyle = getComputedStyle(otherIcon);
+    newIcon.style.display = computedContainerStyle.display;
+    newIcon.style.width = computedContainerStyle.width;
+    newIcon.style.height = computedContainerStyle.height;
+    newIcon.style.marginLeft = (parseFloat(computedContainerStyle.width) / 2) + "px";
+
+    const backgroundElement = icon.previousElementSibling;
 
     // highlight icon when mouseover event using twitter blue color
     // should look the same as the other icons
     newIcon.addEventListener('mouseover', function() {
-        newIcon.style.backgroundColor = 'rgba(29, 161, 242, 0.1)';
+        backgroundElement.style.backgroundColor = 'rgba(29, 161, 242, 0.1)';
         newIcon.querySelector('path').style.stroke = 'rgba(29, 161, 242, 1)';
     });
 
     // return to original style when mouseleave event
     newIcon.addEventListener('mouseleave', function() {
-        newIcon.style.backgroundColor = '';
+        backgroundElement.style.backgroundColor = '';
         newIcon.querySelector('path').style.stroke = iconOriginalColor;
     });
 
